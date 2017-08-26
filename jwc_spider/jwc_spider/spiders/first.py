@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
-from scrapy.contrib.spiders import CrawlSpider
+from scrapy.spiders import CrawlSpider
 from scrapy.http import Request
 from scrapy.selector import Selector
-from jwc_spider.items import JwcSpiderItem
+from jwc_spider import items
 
 
 class FirstSpider(CrawlSpider):
@@ -13,7 +13,7 @@ class FirstSpider(CrawlSpider):
 
 
     def parse(self, response):
-        item = JwcSpiderItem()
+        item = items.JwcSpiderItem()
         selector = Selector(response)
         Movies = selector.xpath('//div[@class="info"]')
         for eachMovie in Movies:
@@ -22,16 +22,15 @@ class FirstSpider(CrawlSpider):
             for each in title:
                 fullTitle += each
             movieInfo = eachMovie.xpath('div[@class="bd"]/p/text()').extract()
-            star = eachMovie.xpath('div[@class="bd"]/div[@class="star"]/span/em/text()').extract()[0]
+            star = eachMovie.xpath('div[@class="bd"]/div[@class="star"]/span/em/text()').extract()
             quote = eachMovie.xpath('div[@class="bd"]/p[@class=quote"]/span/text()').extract()
-
             if quote:
                 quote = quote[0]
             else:
                 quote = ''
             item['title'] = fullTitle
             item['movieInfo'] = ';'.join(movieInfo)
-            item['star'] = star
+            item['star'] = star[0]
             item['quote'] = quote
             yield item
         nextLink = selector.xpath('//span[@class="next"]/link/@href').extract()

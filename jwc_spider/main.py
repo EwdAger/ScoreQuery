@@ -1,2 +1,2 @@
 from scrapy import cmdline
-cmdline.execute("scrapy crawl jwc_spider".split())
+cmdline.execute("scrapy crawl scoreQuery".split())
