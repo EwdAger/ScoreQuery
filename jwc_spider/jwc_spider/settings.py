@@ -23,7 +23,7 @@ ROBOTSTXT_OBEY = False
 
 FEED_URI = u'file:///D:/project/douban.csv'
 FEED_FORMAT = 'CSV'
-
+COOKIE = 'JSESSIONID=42AFBEE5FFA8DFAE3DF45272B7924C0B'
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
 #CONCURRENT_REQUESTS = 32
 
