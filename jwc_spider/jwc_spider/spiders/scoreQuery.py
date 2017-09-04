@@ -22,40 +22,34 @@ class scoreQuerySpider(scrapy.Spider):
     def parse(self, response):
         captcha = response.xpath('//span[@id="SafeCodeImg"]/img/@src').extract()[0]
         #captcha = "http://kdjw.hnust.cn/kdjw/verifycode.servlet"
-        if len(captcha) > 0:
-            print "此时有验证码 "
-            localpath = "D:/project/ScoreQuery/yzm/1.png"
-            urllib.urlretrieve(urljoin(response.url, captcha), filename=localpath)
-            print "请输入验证码： "
-            captcha_value = raw_input()
-            data={
+        print "此时有验证码 "
+        localpath = "D:/project/ScoreQuery/yzm/1.png"
+        urllib.urlretrieve(urljoin(response.url, captcha), filename=localpath)
+        print "请输入验证码： "
+        captcha_value = raw_input()
+        data = {
                 "useDogCode": "",
                 "dlfl": "0",
                 "USERNAME": "1505020114",
                 "PASSWORD": "140216",
                 "RANDOMCODE": captcha_value,
-            }
-        else:
-            print "此时没有验证码"
-            data = {
-                "useDogCode": "",
-                "dlfl": "0",
-                "USERNAME": "1505020114",
-                "PASSWORD": "140216",
-            }
+                "x": "0",
+                "y": "0"
+        }
         print "登录中..."
         return [FormRequest.from_response(response, meta={"cookiejar": response.meta["cookiejar"]},
                                           headers=self.header, formdata=data, callback=self.Next)]
 
     def Next(self, response):
         print "正在爬取成绩信息"
-        errorInfo = response.xpath('//span[@id="errorinfo"]/text()').extract()
-        print errorInfo
-        """return [response, Request("http://kdjw.hnust.cn/kdjw/xszqcjglAction.do?method=queryxscj", meta={"cookiejar": response.meta["cookiejar"]}, callback=self.fun)]
+        #errorInfo = response.xpath('//span[@id="errorinfo"]/text()').extract()
+        #print errorInfo
+
+        return [Request("http://kdjw.hnust.cn/kdjw/xszqcjglAction.do?method=queryxscj", meta={"cookiejar": response.meta["cookiejar"]}, callback=self.fun)]
 
     def fun(self, response):
         print response.body
-        infos = response.xpath('//div[@id="mxhDiv"]/table/tbody/tr/td').extract()
+        """infos = response.xpath('//div[@id="mxhDiv"]/table/tbody/tr/td').extract()
         fullInfo = ''
         for info in infos:
             print info"""
