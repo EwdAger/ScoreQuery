@@ -37,6 +37,7 @@
 
 - model层代码
 - view层部分数据录入代码
+- 新增requirements文件
 
 **V0.2.1更新**
 
