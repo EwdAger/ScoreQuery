@@ -8,6 +8,7 @@ from django.utils import timezone
 class Score(models.Model):
     stu_id = models.CharField(max_length=200, verbose_name='学号')
     name = models.CharField(max_length=200, verbose_name='姓名')
+    grade = models.CharField(max_length=200, verbose_name='年级')
     class_num = models.CharField(max_length=200, verbose_name='班级')
     major = models.CharField(max_length=200, verbose_name='专业')
 
