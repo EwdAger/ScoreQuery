@@ -13,11 +13,11 @@ def w_data():
     spider = jwc_spider.spider()
     data_list = spider.query_spider()      #返回字典列表
     for data in data_list:
-
-        models.Score.objects.create(stu_id=data['stu_id'], name=data['name'], class_num=data['class_num'],
-                                    major=data['major'], c_name=data['c_name'], term=data['term'],
-                                    c_type=data['c_type'], score=data['score'], credit=data['credit'],
-                                    properties=data['properties'], grade=data['grade'])
+        if not models.Score.objects.filter(c_name=data['c_name'], properties=data['properties']).exists():
+            models.Score.objects.create(stu_id=data['stu_id'], name=data['name'], class_num=data['class_num'],
+                                        major=data['major'], c_name=data['c_name'], term=data['term'],
+                                        c_type=data['c_type'], score=data['score'], credit=data['credit'],
+                                        properties=data['properties'], grade=data['grade'])
 
 def index(request):
     w_data()
