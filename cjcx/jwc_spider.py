@@ -32,17 +32,17 @@ class spider(object):
         wd.quit()
         return html.text
 
-    def class_select(self, stu_id):
+    def class_select(self, num):
         major = ''
-        if stu_id == "1":
+        if num == "1":
             major = "计算机科学与工程"
-        elif stu_id == "2":
+        elif num == "2":
             major = "网络工程"
-        elif stu_id == "3":
+        elif num == "3":
             major = "信息安全"
-        elif stu_id == "4":
+        elif num == "4":
             major = "物联网工程"
-        elif stu_id == "5" or stu_id == "6":
+        elif num == "5" or num == "6":
             major = "软件工程"
         return major
 
@@ -54,7 +54,8 @@ class spider(object):
         while True:
             block = selector.xpath('//tr[@id="' + str(i) + '"]')
             if len(block) != 0:
-                stu_id = str(selector.xpath('//tr[@id="' + str(i) + '"]/td[3]/text()'))
+                id = selector.xpath('//tr[@id="' + str(i) + '"]/td[3]/text()')
+                stu_id = id[0]
                 name = selector.xpath('//tr[@id="' + str(i) + '"]/td[4]/text()')
                 term = selector.xpath('//tr[@id="' + str(i) + '"]/td[5]/text()')
                 c_name = selector.xpath('//tr[@id="' + str(i) + '"]/td[6]/text()')
@@ -63,11 +64,11 @@ class spider(object):
                 credit = selector.xpath('//tr[@id="' + str(i) + '"]/td[12]/text()')
                 properties = selector.xpath('//tr[@id="' + str(i) + '"]/td[13]/text()')
                 grade = stu_id[0:2] + "级"
-                major = self.class_select(stu_id[5:6])
-                class_num = stu_id[7:8] + "班"
-                data = {'stu_id': stu_id, 'name': name, 'term': term,
-                           'c_name': c_name, 'score': score, 'c_type': c_type,
-                           'credit': credit, 'properties': properties, 'grade': grade,
+                major = self.class_select(stu_id[5])
+                class_num = stu_id[7] + "班"
+                data = {'stu_id': stu_id, 'name': name[0], 'term': term[0],
+                           'c_name': c_name[0], 'score': score[0], 'c_type': c_type[0],
+                           'credit': credit[0], 'properties': properties[0], 'grade': grade,
                            'major': major, 'class_num': class_num}
 
                 data_list.append(data)
@@ -79,4 +80,4 @@ a = spider()
 b = a.query_spider()
 c = b[0]
 print c['major']
-print len(c)
+print len(b)
