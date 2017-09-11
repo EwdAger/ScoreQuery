@@ -75,9 +75,11 @@ class spider(object):
                 i += 1
             else:
                 return data_list
-
+"""
 a = spider()
 b = a.query_spider()
 c = b[0]
-print c['major']
+print c['grade']
 print len(b)
+
+"""

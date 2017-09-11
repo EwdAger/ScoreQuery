@@ -4,7 +4,7 @@ from __future__ import unicode_literals
 from django.shortcuts import render
 
 import models
-import jwc_spider
+from ScoreQuery.cjcx import jwc_spider
 
 
 # Create your views here.
@@ -22,3 +22,4 @@ def w_data():
 def index(request):
     w_data()
     return render(request, 'index.html', locals())
+# Create your views here.
