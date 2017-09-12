@@ -28,9 +28,10 @@ class spider(object):
         cookies = wd.get_cookies()
         for cookie in cookies:
             req.cookies.set(cookie['name'], cookie['value'])
-        html = req.get('http://kdjw.hnust.cn/kdjw/xszqcjglAction.do?method=queryxscj')
+        html1 = req.get('http://kdjw.hnust.cn/kdjw/xszqcjglAction.do?method=queryxscj')
+        html2 = req.get('http://kdjw.hnust.cn/kdjw/xszqcjglAction.do?method=toXfjdList')
         wd.quit()
-        return html.text
+        return [html1.text, html2.text]
 
     def class_select(self, num):
         major = ''
@@ -48,12 +49,16 @@ class spider(object):
 
     def query_spider(self):
         html = self.login()
-        selector = etree.HTML(html)
-        i = 1
+        selector = etree.HTML(html[0])
+        selector2 = etree.HTML(html[1])
+        i, j = 1, 1
         data_list = []
+        new_data_list = []
+
+        #成绩爬虫
         while True:
-            block = selector.xpath('//tr[@id="' + str(i) + '"]')
-            if len(block) != 0:
+            block1 = selector.xpath('//tr[@id="' + str(i) + '"]')
+            if len(block1) != 0:
                 id = selector.xpath('//tr[@id="' + str(i) + '"]/td[3]/text()')
                 stu_id = id[0]
                 name = selector.xpath('//tr[@id="' + str(i) + '"]/td[4]/text()')
@@ -66,6 +71,7 @@ class spider(object):
                 grade = stu_id[0:2] + "级"
                 major = self.class_select(stu_id[5])
                 class_num = stu_id[7] + "班"
+
                 data = {'stu_id': stu_id, 'name': name[0], 'term': term[0],
                            'c_name': c_name[0], 'score': score[0], 'c_type': c_type[0],
                            'credit': credit[0], 'properties': properties[0], 'grade': grade,
@@ -74,12 +80,34 @@ class spider(object):
                 data_list.append(data)
                 i += 1
             else:
-                return data_list
+                break
+
+        #学分绩点爬虫
+        while True:
+            block2 = selector2.xpath('//tr[@id="' + str(j) + '"]')
+            if len(block2) != 0:
+                c_name = selector2.xpath('//tr[@id="' + str(j) + '"]/td[3]/text()')
+                point = selector2.xpath('//tr[@id="' + str(j) + '"]/td[6]/text()')
+                grade_point = selector2.xpath('//tr[@id="' + str(j) + '"]/td[7]/text()')
+                for data in data_list:
+                    if data['c_name'] == c_name[0] and data['properties'] == u'重修':
+                        data['point'] = ""
+                        data['grade_point'] = ""
+                        new_data_list.append(data)
+                    elif data['c_name'] == c_name[0]:
+                        data['point'] = point[0]
+                        data['grade_point'] = grade_point[0]
+                        new_data_list.append(data)
+                j += 1
+            else:
+                break
+        return new_data_list
+
+
 """
 a = spider()
 b = a.query_spider()
 c = b[0]
-print c['grade']
+print c['c_name'], c['grade_point']
 print len(b)
-
 """

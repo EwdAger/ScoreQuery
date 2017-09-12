@@ -19,6 +19,9 @@ class Score(models.Model):
     credit = models.CharField(max_length=200, verbose_name='学分')
     properties = models.CharField(max_length=200, verbose_name='考试性质')
 
+    point = models.CharField(max_length=200, verbose_name='绩点')
+    grade_point = models.CharField(max_length=200, verbose_name='学分绩点')
+
 
     class Meta:
         verbose_name = u'学生成绩'

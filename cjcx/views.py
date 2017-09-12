@@ -6,7 +6,6 @@ from django.shortcuts import render
 import models
 import jwc_spider
 
-
 # Create your views here.
 
 def w_data():
@@ -17,7 +16,12 @@ def w_data():
             models.Score.objects.create(stu_id=data['stu_id'], name=data['name'], class_num=data['class_num'],
                                         major=data['major'], c_name=data['c_name'], term=data['term'],
                                         c_type=data['c_type'], score=data['score'], credit=data['credit'],
-                                        properties=data['properties'], grade=data['grade'])
+                                        properties=data['properties'], grade=data['grade'],
+                                        point=data['point'], grade_point=data['grade_point']
+                                        )
+
+def class_rank(request):
+    pass
 
 def index(request):
     w_data()
