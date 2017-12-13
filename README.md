@@ -4,7 +4,7 @@
 
 ### 爬虫部分
 
-- 模拟登陆至教务网（含验证码识别）
+- 模拟登陆至教务网（含[验证码识别](https://github.com/EwdAger/ScoreQuery/blob/master/cjcx/captcha_verify.py)）
 - 通过Request URL访问成绩信息
 
 
