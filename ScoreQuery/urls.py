@@ -19,5 +19,6 @@ from cjcx import views
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'index/', views.index),
+    url(r'index/', views.check),
+    url(r'^$', views.login)
 ]
