@@ -1,4 +1,5 @@
-.sqlite3
-.pyc
-.bmp
+*.sqlite3
+*.pyc
+*.bmp
 data.html
+.idea/
