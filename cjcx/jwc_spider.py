@@ -65,13 +65,3 @@ class spider(object):
             cj_soup = cj_soup.next_sibling
 
         return data, year
-
-
-"""
-a = spider()
-data = a.score_bs()
-
-for i in data:
-    for j in range(4):
-        print(i[j])
-"""
